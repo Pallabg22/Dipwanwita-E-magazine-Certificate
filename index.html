@@ -8,7 +8,7 @@
 
 <body>
 
-<!-- ================= SCREEN CONTENT ONLY ================= -->
+<!-- ================= SCREEN CONTENT ================= -->
 <div id="screenContent">
 
     <!-- HEADER -->
@@ -30,12 +30,28 @@
         onkeyup="filterNames()"
     >
 
+    <!-- VERIFY LINK -->
+    <div style="text-align:center;margin:15px 0;">
+        <a href="verify.html" target="_blank"
+           style="
+            display:inline-block;
+            padding:8px 16px;
+            background:#2e7d32;
+            color:#fff;
+            text-decoration:none;
+            border-radius:6px;
+            font-weight:bold;
+           ">
+            🔍 Certificate Verification
+        </a>
+    </div>
+
     <div class="list" id="list"></div>
 </div>
-<!-- ================ END SCREEN CONTENT ================= -->
+<!-- ================= END SCREEN ================= -->
 
 
-<!-- ================= PRINT AREA ONLY ================= -->
+<!-- ================= PRINT AREA ================= -->
 <div id="printArea">
 
 <div class="certificate" id="certificate">
@@ -43,10 +59,10 @@
     <!-- 🏆 AWARD BADGE -->
     <div class="award-badge" id="awardBadge">
         <span>BEST<br>PEN SMITH<br>AWARD</span>
-    </div> 
+    </div>
 
-    <!-- OPTIONAL BACKGROUND IMAGE -->
-    <img src="logo.png.jpg" alt="logo" width="90">
+    <!-- LOGO -->
+    <img src="logo.png.jpg" alt="logo" width="90" style="margin-bottom:15px;">
 
     <h1>সম্মাননা পত্র</h1>
 
@@ -86,52 +102,28 @@
 <!-- ================= END PRINT AREA ================= -->
 
 
-<!-- ================= JAVASCRIPT ================= -->
 <script>
-
-/* ===== FINAL DATA ===== */
+/* ================= FINAL DATA ================= */
 const sections = {
     "Poems / কবিতা": [
-        "সুস্মিতা দত্ত রায়",
-        "বিমল চন্দ্র পান্ডা",
-        "উদয় নারায়ণ বাগ",
-        "পদ্মাবতী কুন্ডু",
-        "বিভূতি বিশ্বাস",
-        "লালন চাঁদ",
-        "গোবিন্দ মোদক",
-        "সুভাষ সিংহ",
-        "বকুল বিশ্বাস",
-        "দিলীপ কুমার পাত্র",
-        "সুশান্ত সেন",
-        "অনুপ কুমার জানা",
-        "তুয়া নূর",
-        "সমর গোস্বামী",
-        "সোনালী ঢালী",
-        "ডঃ অশোক কুমার সনিগ্রাহী",
-        "তপন মাইতি",
-        "অনুরাগ ভৌমিক",
-        "সৌরদীপ অধিকারী",
-        "উত্তম কুমার পাল",
-        "সুবীর কুমার ঘোষ",
+        "সুস্মিতা দত্ত রায়","বিমল চন্দ্র পান্ডা","উদয় নারায়ণ বাগ",
+        "পদ্মাবতী কুন্ডু","বিভূতি বিশ্বাস","লালন চাঁদ","গোবিন্দ মোদক",
+        "সুভাষ সিংহ","বকুল বিশ্বাস","দিলীপ কুমার পাত্র","সুশান্ত সেন",
+        "অনুপ কুমার জানা","তুয়া নূর","সমর গোস্বামী","সোনালী ঢালী",
+        "ডঃ অশোক কুমার সনিগ্রাহী","তপন মাইতি","অনুরাগ ভৌমিক",
+        "সৌরদীপ অধিকারী","উত্তম কুমার পাল","সুবীর কুমার ঘোষ",
         "সৌম্যজিৎ রায়"
     ],
     "Story / গল্প": [
-        "অঞ্জনা মজুমদার",
-        "আনন্দ গোপাল গরাই",
-        "অর্পিতা মালিক",
-        "ভাস্কর সিনহা",
-        "মাখনলাল প্রধান",
-        "সৈকত প্রসাদ রায়",
-        "শ্রেয়া দত্ত"
+        "অঞ্জনা মজুমদার","আনন্দ গোপাল গরাই","অর্পিতা মালিক",
+        "ভাস্কর সিনহা","মাখনলাল প্রধান","সৈকত প্রসাদ রায়","শ্রেয়া দত্ত"
     ],
     "Short Story / অনুগল্প": [
-        "চন্দ্রানী মজুমদার",
-        "পার্থ প্রতিম দাস",
-        "বিপ্লব নসিপুর"
+        "চন্দ্রানী মজুমদার","পার্থ প্রতিম দাস","বিপ্লব নসিপুর"
     ]
 };
 
-/* 🏆 BEST PENSMITH WINNERS */
+/* 🏆 BEST PENSMITH */
 const bestPenSmithWinners = [
     "সুস্মিতা দত্ত রায়",
     "সমর গোস্বামী",
@@ -140,8 +132,8 @@ const bestPenSmithWinners = [
 
 const listDiv = document.getElementById("list");
 
-/* ===== LIST RENDER ===== */
-function renderList(filter = "") {
+/* ===== LIST ===== */
+function renderList(filter="") {
     listDiv.innerHTML = "";
     let serial = 1;
 
@@ -155,21 +147,13 @@ function renderList(filter = "") {
 
             const row = document.createElement("div");
             row.className = "row";
-
             row.innerHTML = `
                 <span>${serial}. ${name}</span>
-                <button
-                    data-name="${name}"
-                    data-section="${section}"
-                    data-serial="${serial}">
+                <button data-name="${name}" data-section="${section}" data-serial="${serial}">
                     Download
                 </button>
             `;
-
-            row.querySelector("button").onclick = function () {
-                handleDownload(this);
-            };
-
+            row.querySelector("button").onclick = () => handleDownload(row.querySelector("button"));
             listDiv.appendChild(row);
             serial++;
         });
@@ -183,43 +167,30 @@ function filterNames() {
 
 function setDate() {
     document.getElementById("date").innerText =
-        new Date().toLocaleDateString("bn-BD", {
-            year: "numeric",
-            month: "long",
-            day: "numeric"
-        });
+        new Date().toLocaleDateString("bn-BD",{year:"numeric",month:"long",day:"numeric"});
 }
 
 function adjustNameSize(name) {
     const el = document.getElementById("name");
     el.innerText = name;
-    el.style.fontSize =
-        name.length > 25 ? "26px" :
-        name.length > 18 ? "30px" : "34px";
+    el.style.fontSize = name.length > 25 ? "26px" : name.length > 18 ? "30px" : "34px";
 }
 
 function handleDownload(btn) {
-
     const name = btn.dataset.name;
 
     adjustNameSize(name);
     document.getElementById("category").innerText = btn.dataset.section;
     document.getElementById("serial").innerText =
-        "Certificate No: NP-" + btn.dataset.serial.padStart(3, "0");
+        "Certificate No: NP-" + btn.dataset.serial.padStart(3,"0");
 
     setDate();
 
-    /* 🏆 AWARD LOGIC */
     const badge = document.getElementById("awardBadge");
-    if (bestPenSmithWinners.includes(name)) {
-        badge.style.display = "flex";
-    } else {
-        badge.style.display = "none";
-    }
+    badge.style.display = bestPenSmithWinners.includes(name) ? "flex" : "none";
 
     setTimeout(() => window.print(), 300);
 }
-
 </script>
 
 </body>

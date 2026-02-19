@@ -12,6 +12,19 @@ body {
     text-align: center;
 }
 
+.verify-box {
+    max-width: 480px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
 input {
     padding: 10px;
     width: 260px;
@@ -29,17 +42,33 @@ button {
     margin-top: 20px;
     font-size: 18px;
 }
+
+.success {
+    color: green;
+}
+
+.error {
+    color: red;
+}
 </style>
 </head>
 
 <body>
 
+<div class="verify-box">
+
 <h2>🔍 Certificate Verification</h2>
 
-<input id="certNo" placeholder="Certificate No (NP-001 / 1 / 15)">
+<input
+    id="certNo"
+    placeholder="Certificate No (NP-001 / 1 / 15)"
+    onkeypress="if(event.key==='Enter') verify();"
+>
 <button onclick="verify()">Verify</button>
 
 <p id="result"></p>
+
+</div>
 
 <script>
 /* ===== SAME DATA AS index.html ===== */
@@ -87,16 +116,18 @@ const sections = {
 /* ===== VERIFY LOGIC ===== */
 function verify() {
     const raw = document.getElementById("certNo").value.trim();
+    const result = document.getElementById("result");
 
     if (!raw) {
-        show("❌ Certificate number দিন");
+        show("❌ Certificate number দিন", "error");
         return;
     }
 
+    // Supports: 1, 15, NP-015, np015
     const num = parseInt(raw.replace(/[^0-9]/g, ""), 10);
 
     if (isNaN(num) || num <= 0) {
-        show("❌ Invalid certificate format");
+        show("❌ Invalid certificate format", "error");
         return;
     }
 
@@ -109,7 +140,8 @@ function verify() {
                     "✅ <strong>Valid Certificate</strong><br><br>" +
                     "<strong>Name:</strong> " + name + "<br>" +
                     "<strong>Section:</strong> " + section + "<br>" +
-                    "<strong>Certificate No:</strong> NP-" + String(num).padStart(3, "0")
+                    "<strong>Certificate No:</strong> NP-" + String(num).padStart(3, "0"),
+                    "success"
                 );
                 return;
             }
@@ -117,11 +149,13 @@ function verify() {
         }
     }
 
-    show("❌ Certificate not found");
+    show("❌ Certificate not found", "error");
 }
 
-function show(msg) {
-    document.getElementById("result").innerHTML = msg;
+function show(msg, type) {
+    const el = document.getElementById("result");
+    el.className = type;
+    el.innerHTML = msg;
 }
 
 /* ===== AUTO VERIFY FROM QR PARAM ===== */
