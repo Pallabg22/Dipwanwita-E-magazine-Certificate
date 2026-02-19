@@ -1,0 +1,98 @@
+/* ================= BASE ================= */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Noto Serif Bengali", serif;
+}
+
+/* ================= SCREEN ONLY ================= */
+#screenContent {
+    background-color: #dbd0b3;
+    padding: 20px;
+}
+
+/* ================= CERTIFICATE ================= */
+.certificate {
+    width: 816px;
+    height: 1344px;
+    margin: 0 auto;
+    padding: 120px 95px;
+    box-sizing: border-box;
+    text-align: center;
+
+    background: #f4ecd8;
+    border: 6px solid #7a4a1f;
+}
+
+/* ================= PRINT RULE ================= */
+@page {
+    size: legal portrait;
+    margin: 0;
+}
+
+@media print {
+
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    /* screen content hide */
+    #screenContent {
+        display: none;
+    }
+
+    /* certificate only */
+    .certificate {
+        display: block;
+        width: 816px;
+        height: 1344px;
+        margin: 0;
+        page-break-after: avoid;
+    }
+}
+.award-badge {
+    display: none;   /* JS control করবে */
+}
+
+/* ================= BEST PENSMITH AWARD – CIRCLE BADGE ================= */
+
+.award-badge {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+
+    background: radial-gradient(
+        circle at top left,
+        #ffd700,
+        #c99700
+    );
+
+    display: none;               /* JS থেকে control হবে */
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    box-shadow:
+        0 0 0 6px #fff,
+        0 0 0 10px #7a4a1f,
+        0 10px 20px rgba(0,0,0,0.35);
+
+    z-index: 10;
+}
+
+/* Award text */
+.award-badge span {
+    font-family: "Georgia", serif;
+    font-size: 14px;
+    font-weight: bold;
+    color: #4a2c00;
+    line-height: 1.2;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}

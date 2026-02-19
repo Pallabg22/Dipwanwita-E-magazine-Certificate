@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<title>Participation Certificate</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ================= SCREEN CONTENT ONLY ================= -->
+<div id="screenContent">
+
+    <!-- HEADER -->
+    <div class="page-header">
+        <h1 class="main-title">
+            Dipwanwita E Magazine<br>
+            দীপান্বিতা ই–পত্রিকা
+        </h1>
+
+        <div class="divider"></div>
+        <h2 class="title">Participant Certificate Download</h2>
+    </div>
+
+    <!-- SEARCH -->
+    <input
+        type="text"
+        id="search"
+        placeholder="নাম খুঁজুন..."
+        onkeyup="filterNames()"
+    >
+
+    <div class="list" id="list"></div>
+</div>
+<!-- ================ END SCREEN CONTENT ================= -->
+
+
+<!-- ================= PRINT AREA ONLY ================= -->
+<div id="printArea">
+
+<div class="certificate" id="certificate">
+
+    <!-- 🏆 AWARD BADGE -->
+    <div class="award-badge" id="awardBadge">
+        <span>BEST<br>PEN SMITH<br>AWARD</span>
+    </div> 
+
+    <!-- OPTIONAL BACKGROUND IMAGE -->
+    <img src="logo.png.jpg" alt="logo" width="90">
+
+    <h1>সম্মাননা পত্র</h1>
+
+    <p id="category" class="category"></p>
+    <p id="serial" class="serial"></p>
+
+    <div id="name" class="name"></div>
+
+    <p class="text">
+        দীপান্বিতা ই–পত্রিকার পক্ষ থেকে সংশ্লিষ্ট বিভাগে যুক্ত হওয়ার জন্য
+        আপনাকে আন্তরিক অভিনন্দন ও শুভেচ্ছা।<br><br>
+
+        আপনার সৃজনশীল ভাবনা ও সাহিত্যচর্চার আন্তরিক প্রয়াসে
+        আমাদের এই সাহিত্যযাত্রা আরও সমৃদ্ধ হয়েছে।
+        সাহিত্যপথে আপনার নিরন্তর অগ্রযাত্রা কামনা করি।
+    </p>
+
+    <div class="footer">
+        <div class="sign">
+            <div class="line"></div>
+            <p><strong>Pallab Guchhait</strong></p>
+            <p>Editor</p>
+        </div>
+
+        <div class="date">
+            <div class="line"></div>
+            <p id="date"></p>
+            <p>
+                দীপান্বিতা ই–পত্রিকা পরিবার<br>
+                ও কবিতার ঝুড়ি সাহিত্য পত্রিকা
+            </p>
+        </div>
+    </div>
+
+</div>
+</div>
+<!-- ================= END PRINT AREA ================= -->
+
+
+<!-- ================= JAVASCRIPT ================= -->
+<script>
+
+/* ===== FINAL DATA ===== */
+const sections = {
+    "Poems / কবিতা": [
+        "সুস্মিতা দত্ত রায়",
+        "বিমল চন্দ্র পান্ডা",
+        "উদয় নারায়ণ বাগ",
+        "পদ্মাবতী কুন্ডু",
+        "বিভূতি বিশ্বাস",
+        "লালন চাঁদ",
+        "গোবিন্দ মোদক",
+        "সুভাষ সিংহ",
+        "বকুল বিশ্বাস",
+        "দিলীপ কুমার পাত্র",
+        "সুশান্ত সেন",
+        "অনুপ কুমার জানা",
+        "তুয়া নূর",
+        "সমর গোস্বামী",
+        "সোনালী ঢালী",
+        "ডঃ অশোক কুমার সনিগ্রাহী",
+        "তপন মাইতি",
+        "অনুরাগ ভৌমিক",
+        "সৌরদীপ অধিকারী",
+        "উত্তম কুমার পাল",
+        "সুবীর কুমার ঘোষ",
+        "সৌম্যজিৎ রায়"
+    ],
+    "Story / গল্প": [
+        "অঞ্জনা মজুমদার",
+        "আনন্দ গোপাল গরাই",
+        "অর্পিতা মালিক",
+        "ভাস্কর সিনহা",
+        "মাখনলাল প্রধান",
+        "সৈকত প্রসাদ রায়",
+        "শ্রেয়া দত্ত"
+    ],
+    "Short Story / অনুগল্প": [
+        "চন্দ্রানী মজুমদার",
+        "পার্থ প্রতিম দাস",
+        "বিপ্লব নসিপুর"
+    ]
+};
+
+/* 🏆 BEST PENSMITH WINNERS */
+const bestPenSmithWinners = [
+    "সুস্মিতা দত্ত রায়",
+    "সমর গোস্বামী",
+    "সৌম্যজিৎ রায়"
+];
+
+const listDiv = document.getElementById("list");
+
+/* ===== LIST RENDER ===== */
+function renderList(filter = "") {
+    listDiv.innerHTML = "";
+    let serial = 1;
+
+    for (const section in sections) {
+        const h = document.createElement("h3");
+        h.innerText = section;
+        listDiv.appendChild(h);
+
+        sections[section].forEach(name => {
+            if (!name.includes(filter)) return;
+
+            const row = document.createElement("div");
+            row.className = "row";
+
+            row.innerHTML = `
+                <span>${serial}. ${name}</span>
+                <button
+                    data-name="${name}"
+                    data-section="${section}"
+                    data-serial="${serial}">
+                    Download
+                </button>
+            `;
+
+            row.querySelector("button").onclick = function () {
+                handleDownload(this);
+            };
+
+            listDiv.appendChild(row);
+            serial++;
+        });
+    }
+}
+renderList();
+
+function filterNames() {
+    renderList(document.getElementById("search").value);
+}
+
+function setDate() {
+    document.getElementById("date").innerText =
+        new Date().toLocaleDateString("bn-BD", {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        });
+}
+
+function adjustNameSize(name) {
+    const el = document.getElementById("name");
+    el.innerText = name;
+    el.style.fontSize =
+        name.length > 25 ? "26px" :
+        name.length > 18 ? "30px" : "34px";
+}
+
+function handleDownload(btn) {
+
+    const name = btn.dataset.name;
+
+    adjustNameSize(name);
+    document.getElementById("category").innerText = btn.dataset.section;
+    document.getElementById("serial").innerText =
+        "Certificate No: NP-" + btn.dataset.serial.padStart(3, "0");
+
+    setDate();
+
+    /* 🏆 AWARD LOGIC */
+    const badge = document.getElementById("awardBadge");
+    if (bestPenSmithWinners.includes(name)) {
+        badge.style.display = "flex";
+    } else {
+        badge.style.display = "none";
+    }
+
+    setTimeout(() => window.print(), 300);
+}
+
+</script>
+
+</body>
+</html>
