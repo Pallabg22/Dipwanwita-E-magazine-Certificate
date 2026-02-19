@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<title>Certificate Verification</title>
+
+<style>
+body {
+    font-family: "Noto Serif Bengali", serif;
+    background: #f2f2f2;
+    padding: 40px;
+    text-align: center;
+}
+
+input {
+    padding: 10px;
+    width: 260px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 18px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+#result {
+    margin-top: 20px;
+    font-size: 18px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>🔍 Certificate Verification</h2>
+
+<input id="certNo" placeholder="Certificate No (NP-001 / 1 / 15)">
+<button onclick="verify()">Verify</button>
+
+<p id="result"></p>
+
+<script>
+/* ===== SAME DATA AS index.html ===== */
+const sections = {
+    "Poems / কবিতা": [
+        "সুস্মিতা দত্ত রায়",
+        "বিমল চন্দ্র পান্ডা",
+        "উদয় নারায়ণ বাগ",
+        "পদ্মাবতী কুন্ডু",
+        "বিভূতি বিশ্বাস",
+        "লালন চাঁদ",
+        "গোবিন্দ মোদক",
+        "সুভাষ সিংহ",
+        "বকুল বিশ্বাস",
+        "দিলীপ কুমার পাত্র",
+        "সুশান্ত সেন",
+        "অনুপ কুমার জানা",
+        "তুয়া নূর",
+        "সমর গোস্বামী",
+        "সোনালী ঢালী",
+        "ডঃ অশোক কুমার সনিগ্রাহী",
+        "তপন মাইতি",
+        "অনুরাগ ভৌমিক",
+        "সৌরদীপ অধিকারী",
+        "উত্তম কুমার পাল",
+        "সুবীর কুমার ঘোষ",
+        "সৌম্যজিৎ রায়"
+    ],
+    "Story / গল্প": [
+        "অঞ্জনা মজুমদার",
+        "আনন্দ গোপাল গরাই",
+        "অর্পিতা মালিক",
+        "ভাস্কর সিনহা",
+        "মাখনলাল প্রধান",
+        "সৈকত প্রসাদ রায়",
+        "শ্রেয়া দত্ত"
+    ],
+    "Short Story / অনুগল্প": [
+        "চন্দ্রানী মজুমদার",
+        "পার্থ প্রতিম দাস",
+        "বিপ্লব নসিপুর"
+    ]
+};
+
+/* ===== VERIFY LOGIC ===== */
+function verify() {
+    const raw = document.getElementById("certNo").value.trim();
+
+    if (!raw) {
+        show("❌ Certificate number দিন");
+        return;
+    }
+
+    const num = parseInt(raw.replace(/[^0-9]/g, ""), 10);
+
+    if (isNaN(num) || num <= 0) {
+        show("❌ Invalid certificate format");
+        return;
+    }
+
+    let count = 1;
+
+    for (const section in sections) {
+        for (const name of sections[section]) {
+            if (count === num) {
+                show(
+                    "✅ <strong>Valid Certificate</strong><br><br>" +
+                    "<strong>Name:</strong> " + name + "<br>" +
+                    "<strong>Section:</strong> " + section + "<br>" +
+                    "<strong>Certificate No:</strong> NP-" + String(num).padStart(3, "0")
+                );
+                return;
+            }
+            count++;
+        }
+    }
+
+    show("❌ Certificate not found");
+}
+
+function show(msg) {
+    document.getElementById("result").innerHTML = msg;
+}
+
+/* ===== AUTO VERIFY FROM QR PARAM ===== */
+window.onload = function () {
+    const params = new URLSearchParams(window.location.search);
+    const cert = params.get("cert");
+
+    if (cert) {
+        document.getElementById("certNo").value = cert;
+        verify();
+    }
+};
+</script>
+
+</body>
+</html>
